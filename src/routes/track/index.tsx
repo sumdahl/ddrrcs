@@ -21,7 +21,7 @@ export const Route = createFileRoute('/track/')({
 function TrackPage() {
   const search = useSearch({ from: '/track/' })
   const navigate = useNavigate()
-  const { user, profile } = useAuth()
+  const { user } = useAuth()
   const [requestId, setRequestId] = useState(search.id || '')
   const [request, setRequest] = useState<ReliefRequest | null>(null)
   const [loading, setLoading] = useState(false)

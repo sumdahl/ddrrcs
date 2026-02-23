@@ -1,11 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Shield,
   FileText,
   Search,
   Users,
   AlertTriangle,
-  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,12 +20,12 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
   return (
     <div className="space-y-8">
       <section className="text-center py-12">
-        <Shield className="h-16 w-16 mx-auto text-primary mb-4" />
+        <span className="text-6xl mb-4 block">🇳🇵</span>
         <h1 className="text-4xl font-bold mb-4">
           Digital Disaster Relief Request & Coordination System
         </h1>
@@ -60,7 +58,7 @@ function HomePage() {
           </CardHeader>
           <CardContent>
             <Link to="/submit">
-              <Button className="w-full">Submit Request</Button>
+              <Button className="w-full cursor-pointer">Submit Request</Button>
             </Link>
           </CardContent>
         </Card>
@@ -75,7 +73,7 @@ function HomePage() {
           </CardHeader>
           <CardContent>
             <Link to="/track" search={{ id: undefined }}>
-              <Button className="w-full">Track Request</Button>
+              <Button className="w-full cursor-pointer">Track Request</Button>
             </Link>
           </CardContent>
         </Card>
@@ -90,9 +88,15 @@ function HomePage() {
           </CardHeader>
           <CardContent>
             {user ? (
-              <Button className="w-full" onClick={() => {}}>
-                View Profile
-              </Button>
+              profile?.role === 'admin' ? (
+                <Link to="/admin">
+                  <Button className="w-full cursor-pointer">Go to Dashboard</Button>
+                </Link>
+              ) : (
+                <Link to="/dashboard">
+                  <Button className="w-full cursor-pointer">Go to Dashboard</Button>
+                </Link>
+              )
             ) : (
               <Link to="/auth/login">
                 <Button className="w-full">Sign In</Button>
