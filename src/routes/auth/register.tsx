@@ -18,6 +18,7 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [userEmail, setUserEmail] = useState('')
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,6 +31,7 @@ function RegisterPage() {
       setError(result.error.message)
       setLoading(false)
     } else {
+      setUserEmail(email)
       setSuccess(true)
       setLoading(false)
     }
@@ -40,9 +42,15 @@ function RegisterPage() {
       <div className="max-w-md mx-auto">
         <Card>
           <CardHeader className="text-center">
-            <CardTitle>Registration Successful</CardTitle>
-            <CardDescription>Check your email to confirm your account</CardDescription>
+            <CardTitle>Check Your Email</CardTitle>
+            <CardDescription>
+              We've sent a confirmation link to <strong>{userEmail}</strong>
+            </CardDescription>
           </CardHeader>
+          <CardContent className="text-center text-sm text-muted-foreground">
+            <p>Please click the link in the email to verify your account and complete your registration.</p>
+            <p className="mt-2">Didn't receive the email? Please check your spam folder.</p>
+          </CardContent>
         </Card>
       </div>
     )
