@@ -9,7 +9,7 @@ interface AuthContextType {
   session: Session | null
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>
+  signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null; needsEmailConfirmation?: boolean }>
   signInWithMagicLink: (email: string) => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
 }
@@ -76,19 +76,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (error) return { error }
 
-    if (data.user) {
-      const { error: profileError } = await supabase.from('profiles').insert({
-        id: data.user.id,
-        full_name: fullName,
-        role: 'citizen',
-      } as never)
+    const needsEmailConfirmation = !data.session
 
-      if (profileError) {
-        return { error: new Error('Account created but profile setup failed. Please contact support.') }
-      }
-    }
-
-    return { error: null }
+    return { error: null, needsEmailConfirmation }
   }
 
   async function signInWithMagicLink(email: string) {
