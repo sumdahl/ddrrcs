@@ -16,6 +16,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AdminSetupRouteImport } from './routes/admin/setup'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
 
@@ -54,6 +55,11 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSetupRoute = AdminSetupRouteImport.update({
   id: '/admin/setup',
   path: '/admin/setup',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/setup': typeof AdminSetupRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/admin/': typeof AdminIndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/setup': typeof AdminSetupRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/admin': typeof AdminIndexRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/setup': typeof AdminSetupRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/admin/': typeof AdminIndexRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin/analytics'
     | '/admin/setup'
+    | '/auth/callback'
     | '/auth/login'
     | '/auth/register'
     | '/admin/'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin/analytics'
     | '/admin/setup'
+    | '/auth/callback'
     | '/auth/login'
     | '/auth/register'
     | '/admin'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin/analytics'
     | '/admin/setup'
+    | '/auth/callback'
     | '/auth/login'
     | '/auth/register'
     | '/admin/'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminSetupRoute: typeof AdminSetupRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/setup': {
       id: '/admin/setup'
       path: '/admin/setup'
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminSetupRoute: AdminSetupRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   AdminIndexRoute: AdminIndexRoute,
