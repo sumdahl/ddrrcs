@@ -23,14 +23,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        fetchProfile(session.user.id)
-      } else {
-        setLoading(false)
+    async function handleAuthCallback() {
+      const params = new URLSearchParams(window.location.search)
+      const code = params.get('code')
+      
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        if (error) {
+          await supabase.auth.getSession()
+        }
+        window.history.replaceState({}, '', window.location.pathname)
       }
+    }
+
+    handleAuthCallback().then(() => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session)
+        setUser(session?.user ?? null)
+        if (session?.user) {
+          fetchProfile(session.user.id)
+        } else {
+          setLoading(false)
+        }
+      })
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
